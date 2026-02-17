@@ -1,14 +1,6 @@
-# README - Main/overall repo
-- Retype Wetlands-prototype-MVP to review what AI produced
-- Renamed as "Wetlands-MVP_v2_solo"
+# Wetlands MVP v2 Solo
 
-No uploads. No database. No authentication… So which of these is next? 
-
-# 🌿 Water and Wetlands Monitoring Web Application
-*A citizen-science platform for mapping and monitoring small, localized wetlands*
-
-## 📌 Project Overview
-Small, localized wetlands play a critical role in **water filtration** and **flood mitigation**. This web application is a minimal viable product for water and wetland education. For data collection, it uses AI vision to analyze and describe water and **wetland** images. By only submitting a picture, **citizen scientists** to provide map-ready environmental observations quickly and reliably.
+A minimal viable product for wetland education that uses AI vision to analyze and describe wetland images, helping users learn about water ecosystems and their importance.
 
 ## 📋 Table of Contents
 - [Overview](#overview)
@@ -22,61 +14,38 @@ Small, localized wetlands play a critical role in **water filtration** and **flo
 
 ## Overview
 
-This project is an educational tool for:
+This project is an educational tool that:
 - **Visitors**: Learn about water and wetlands importance through AI-powered image analysis
 - **Uploaders**: Gain understanding of water issues and wetlands' role through interactive photo analysis
 
-### Core Goals
-* Increase public awareness of wetlands as water-quality indicators
-* Enable structured, standardized environmental data submission
-* Produce exportable, GIS-ready datasets
-* Support long-term conservation and infrastructure planning
+The current MVP demonstrates AI capability by:
+1. Manually placing images in `/backend/images_preUpload/`
+2. Hardcoding filenames in FastAPI
+3. Sending image paths to Ollama (LLaVA vision model)
+4. Receiving AI-generated descriptions focused on wetland education
+5. Returning structured JSON responses
+6. Displaying results (future React frontend integration)
 
----
+## 🛠 Setup Guide
 
-# 🛠 Setup Guide
-
-## 1️⃣ Prerequisites
-* Python 3.8+
-* Ollama installed locally
-* LLaMA 3.2 Vision model (`llama3.2-vision`)
-* Node.js (v18+ recommended)
-* npm or yarn
-* Git
-* PostgreSQL (or chosen database)
-* Optional: Docker
-
-
+### Prerequisites
+- Python 3.8+
+- Ollama installed locally
+- LLaMA 3.2 Vision model (`llama3.2-vision`)
 
 ### Installation Steps
 
-1. **Clone the repository** -    ## 2️⃣ Clone the Repository
+1. **Clone the repository**
    ```bash
    git clone <repository-url>
    cd Wetlands-MVP_v2_solo
    ```
 
-   ```bash
-    git clone https://github.com/your-org/wetlands-project.git
-    cd wetlands-project
-    ```
-
-
 2. **Install Python dependencies**
    ```bash
    pip install fastapi uvicorn ollama
    ```
-## 3️⃣ Install Dependencies
 
-    ```bash
-    npm install
-    ```
-## 📦 Dependencies
-
-### Required Python Packages
-- `fastapi` - Web framework for building APIs
-- `uvicorn` - ASGI server for FastAPI
-- `ollama` - Python client for Ollama AI models
 3. **Install and setup Ollama**
    ```bash
    # Install Ollama (visit https://ollama.ai for platform-specific instructions)
@@ -84,6 +53,17 @@ This project is an educational tool for:
    ollama pull llama3.2-vision
    ```
 
+4. **Verify Ollama is running**
+   ```bash
+   ollama serve
+   ```
+
+## 📦 Dependencies
+
+### Required Python Packages
+- `fastapi` - Web framework for building APIs
+- `uvicorn` - ASGI server for FastAPI
+- `ollama` - Python client for Ollama AI models
 
 ### AI Models
 - `llama3.2-vision` - Vision-language model for image analysis
@@ -94,35 +74,15 @@ This project is an educational tool for:
 - File upload handling
 - Authentication system
 
-
-
 ## 🚀 Usage Instructions
 
-### Running the Backend 
+### Running the Backend
 
 1. **Start the FastAPI server**
    ```bash
    cd backend
    uvicorn main:app --host 127.0.0.1 --port 8000 --reload
    ```
-## 🧑‍🔬 For Citizen Scientists (Actors)
-
-1. Click **Submit Observation**
-2. Allow location access (or manually enter coordinates)
-3. Upload image(s)
-4. Complete structured form:
-
-   * Water presence (only AI for: Water quality (flow, algae, color, turbidity, etc.))
-   * Plant or animal indicators
-   * Submit for review
-Form responses may be summarized in Phase 1-2 (Phase 3 onward, may be: mapped and analyzed)
-
-User-submitted image may get follow-up in :
-* Validated
-* Stored in database
-* Exportable in CSV/GeoJSON format
-
-
 
 2. **Test the API**
    - Open browser to `http://127.0.0.1:8000`
@@ -147,16 +107,7 @@ User-submitted image may get follow-up in :
 The AI will provide:
 - Image description with common names (not scientific)
 - Educational fact suitable for 10-second reading
-- Focus on wetland ecosystems and water importance 
-
-The current MVP demonstrates AI capability by:
-1. Manually placing images in `/backend/images_preUpload/`
-2. Hardcoding filenames in FastAPI
-3. Sending image paths to Ollama (LLaVA vision model)
-4. Receiving AI-generated descriptions focused on wetland education
-5. Returning structured JSON responses
-6. Displaying results (future React frontend integration)
-
+- Focus on wetland ecosystems and water importance
 
 ## 🔑 API Keys
 
@@ -175,78 +126,11 @@ The current MVP demonstrates AI capability by:
 ```bash
 # Terminal 1: Start Ollama
 ollama serve
-4. **Verify Ollama is running**
-   ```bash
-   ollama serve
-   ```
 
 # Terminal 2: Start FastAPI
 cd backend
 uvicorn main:app --host 127.0.0.1 --port 8000 --reload
 ```
-
-
-## 4️⃣ Environment Variables
-
-Create a `.env` file in the root directory:
-
-```env
-DATABASE_URL=your_database_connection_string
-MAPS_API_KEY=your_maps_api_key
-JWT_SECRET=your_secret_key
-PORT=3000
-```
-
-See **API Keys section** below for more detail.
-
----
-
-
-## 5️⃣ Database Setup
-
-Run migrations:
-
-```bash
-npm run migrate
-```
-
-Seed database (optional):
-
-```bash
-npm run seed
-```
-
-++++++++++++++++
-
-## 6️⃣ Start Development Server
-
-```bash
-npm run dev
-```
-
-Visit:
-
-```
-http://localhost:3000
-```
-
----
-
-
-
-# 🚀 Usage Instructions
-
-## 👤 For Visitors
-
-* View wetland map
-* Explore previously submitted observations
-* Learn about:
-
-  * Water quality indicators
-  * Native plants and animals
-  * Flood mitigation benefits
-
-
 
 ### Production Deployment (Future)
 1. **Environment Setup**
@@ -279,41 +163,6 @@ Wetlands-MVP_v2_solo/
 ├── LICENSE
 ```
 
-# 🧑‍💻 Developer Notes
-
-## 🗂 Suggested Database Tables
-
-* `users`
-* `observations`
-* `images`
-* `wetland_types`
-* `species`
-* `admin_reviews`
-
-## 🧠 Architecture Overview
-
-Frontend:
-
-* React (or chosen framework)
-* Map integration (Leaflet/Google Maps API)
-* Image preview + optional Base64 encoding (Phase 1 lightweight implementation)
-
-Backend:
-
-* Node.js + Express
-* RESTful API routes (CRUD)
-* Authentication middleware
-* File handling (local or cloud storage)
-
-Database:
-
-* PostgreSQL (preferred)
-* Spatial extension recommended (PostGIS)
-
----
-
-
-
 ### Key Files
 - [`main.py`](backend/main.py) - FastAPI routes and server configuration
 - [`model_RAG_response.py`](backend/model_RAG_response.py) - Ollama integration and prompt engineering
@@ -338,15 +187,6 @@ The AI prompt is designed to:
 - Provide 5th-grade level explanations (10-second read time)
 - Emphasize ecological importance of wetlands
 - Avoid encouraging risky behavior near water
-
-The current MVP demonstrates AI capability by:
-1. Manually placing images in `/backend/images_preUpload/`
-2. Hardcoding filenames in FastAPI
-3. Sending image paths to Ollama (LLaVA vision model)
-4. Receiving AI-generated descriptions focused on wetland education
-5. Returning structured JSON responses
-6. Displaying results (future React frontend integration)
-
 
 ## 🔧 Troubleshooting
 
@@ -397,184 +237,3 @@ As noted in [`Sites_recomm_preGIS.md`](backend/documentation/Sites_recomm_preGIS
 ---
 
 **Note**: This is an MVP focused on demonstrating AI capabilities. Future versions will include full web application functionality, user uploads, and comprehensive wetland education features.
-
-
-
-
-
-
-
-
-
-# ChatGPT
-
-
-
-
-
-
-
-
-
-
-
-
-
----
-
-
-
-# 🔑 API Keys
-
-Store in `.env` file. Do NOT commit to version control.
-
-Common Required Keys:
-
-* Google Maps API Key (for map rendering)
-* Mapbox Token (if using Mapbox instead)
-* Cloud storage key (e.g., AWS S3)
-* JWT Secret (authentication)
-
-### Best Practices
-
-* Use `.env.example`
-* Rotate keys periodically
-* Restrict domain usage in API dashboards
-
----
-
-# 🌐 Deployment Instructions
-
-## Option A: Vercel (Frontend) + Railway/Render (Backend)
-
-1. Push to GitHub
-2. Connect repo to deployment platform
-3. Add environment variables in dashboard
-4. Configure production database
-5. Deploy
-
----
-
-## Option B: Docker Deployment
-
-Build image:
-
-```bash
-docker build -t wetlands-app .
-```
-
-Run container:
-
-```bash
-docker run -p 3000:3000 wetlands-app
-```
-
----
-
-## Option C: Traditional VPS
-
-* Install Node + PostgreSQL
-* Pull repo
-* Install dependencies
-* Configure `.env`
-* Use PM2 to manage process:
-
-```bash
-pm2 start server.js
-```
-
----
-
-# 📦 Dependencies
-
-## Core
-
-* express
-* react
-* axios
-* dotenv
-* jsonwebtoken
-* bcrypt
-* multer (for image uploads)
-
-## Database
-
-* pg
-* sequelize or prisma (optional ORM)
-
-## Mapping
-
-* leaflet or Google Maps SDK
-* geospatial utilities (turf.js)
-
----
-
-# 🧩 Troubleshooting Tips
-
-## App won’t start
-
-* Check `.env` file
-* Confirm `PORT` not in use
-* Run `npm install` again
-
-## Database connection fails
-
-* Confirm `DATABASE_URL`
-* Verify database is running
-* Check firewall rules
-
-## Image upload fails
-
-* Check file size limits
-* Confirm `multer` configuration
-* Verify cloud storage credentials
-
----
-
-# 📊 Data Export
-
-Supported formats:
-
-* CSV
-* GeoJSON
-* JSON API endpoint
-
-Future:
-
-* Integration with GIS platforms
-* Batch download for researchers
-
----
-
-# 🔒 Security Considerations
-
-* Sanitize all user input
-* Validate file types
-* Rate-limit submissions
-* Use HTTPS in production
-* Role-based admin review system
-
----
-
-# 📈 Future Enhancements
-
-* AI-assisted species identification
-* Wetland health scoring system
-* SMS submission option
-* Offline-first mobile experience
-* Dashboard analytics for municipalities
-
----
-
-# 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Submit pull request
-4. Include test coverage
-
----
-
-# 📜 License
-
-MIT License (or appropriate conservation-aligned license)
