@@ -1,22 +1,24 @@
-# Base64 encoding is a general utility, may be used beyond Ollama model...
-# So separated from model file: model_RAG_response.py
+"""Utility helpers for image handling.
 
-# Base64 encoding import to prep for "def..." function in this file
+Provide `convert_image_to_base64(image_path)` for other modules to call.
+This module must not execute IO at import time.
+"""
 import base64
+from pathlib import Path
+from typing import Optional
 
-# Base64 encoding function to a new file (image_utils.py). 
-# connect them by importing the function from image_utils.py
-from image_util import convert_image_to_base64
 
-# The Base64 encoding must be done before calling ollama.chat, as the encoded string 
-# needs to be prepared and passed in the images parameter of the API call.
-image_path = 'images_preUpload/AnimalWaterBranches.png'  # Relative path to the image file
-base64_string = convert_image_to_base64(image_path)  # Convert the image to a Base64 string
-print(base64_string)  # Print the Base64 string to verify it was created correctly
+def convert_image_to_base64(image_path: str) -> str:
+    """Read an image file and return a base64-encoded UTF-8 string.
 
-# Base64 encoding function to a new file (image_utils.py). You can connect them by importing the function from image_utils.py
-def convert_to_base64(image_path):
-    """Convert an image to a Base64-encoded string.
+    Raises FileNotFoundError or OSError on IO errors.
     """
-    with open(image_path,"rb") as image_file:
-        return base64.b64encode(image_file.read()).decode('utf-8')
+    path = Path(image_path)
+    # Normalize and validate the path before attempting to open the file
+    if not path.exists():
+        # Explicitly raise FileNotFoundError so callers/tests can catch it
+        raise FileNotFoundError(f"Image file not found: {image_path}")
+
+    # Read binary image data and return a base64-encoded UTF-8 string
+    with path.open("rb") as f:
+        return base64.b64encode(f.read()).decode("utf-8")
