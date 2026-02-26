@@ -99,3 +99,31 @@ def test_analyze_wetland_image_invalid_format_propagates():
 
         # Ensure the model was not called when decoding raises an unexpected error
         mock_chat.assert_not_called()
+
+# ------------------------
+# DIRECT TESTS FOR convert_image_to_base64
+# ------------------------
+import pytest
+from pathlib import Path
+from image_util import convert_image_to_base64
+
+def test_convert_image_to_base64_valid_file(tmp_path):
+    # Create a temporary image file
+    image_file = tmp_path / "test_image.jpg"
+    image_file.write_bytes(b"fake_image_data")
+
+    # Call the function and verify the base64 encoding
+    result = convert_image_to_base64(str(image_file))
+    assert isinstance(result, str)
+    assert result == "ZmFrZV9pbWFnZV9kYXRh"  # Base64 encoding of "fake_image_data"
+
+def test_convert_image_to_base64_file_not_found():
+    # Test with a non-existent file
+    with pytest.raises(FileNotFoundError):
+        convert_image_to_base64("nonexistent.jpg")
+
+def test_convert_image_to_base64_os_error(mocker):
+    # Mock Path.open to raise an OSError
+    mocker.patch("pathlib.Path.open", side_effect=OSError("Permission denied"))
+    with pytest.raises(OSError):
+        convert_image_to_base64("unreadable.jpg")

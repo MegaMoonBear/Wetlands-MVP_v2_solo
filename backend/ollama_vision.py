@@ -50,6 +50,10 @@ def analyze_wetland_image(image_path: str) -> Dict:
     if base64_image:
         message["images"] = [base64_image]
 
+        # Uncomment the following lines after database creation to save the base64 string
+        # with open("encoded_image.txt", "w") as f:
+        #     f.write(base64_image)
+
     # Call the Ollama API; propagate exceptions to let callers/tests handle them
     response = ollama.chat(model="llama3.2-vision", messages=[message])
     return response
